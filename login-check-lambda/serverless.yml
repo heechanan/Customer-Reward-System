@@ -1,0 +1,87 @@
+service: login-check-lambda
+frameworkVersion: '3'
+
+plugins:
+  - serverless-dynamodb-seed
+
+custom:
+  tableNameOne: 'userTable'
+  tableNameTwo: 'userInfoTable'
+  tableNameThree: 'rewardInfoTable'
+  seed:
+    seedOne:
+      table: ${self:custom.tableNameOne}
+      sources:
+        - ./userTable.json
+    seedTwo:
+      table: ${self:custom.tableNameTwo}
+      sources:
+        - ./userInfoTable.json
+    seedThree:
+      table: ${self:custom.tableNameThree}
+      sources:
+        - ./rewardInfoTable.json
+
+provider:
+  name: aws
+  region: ap-northeast-2
+  runtime: nodejs18.x
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource:
+            - Fn::GetAtt: [ UserTable, Arn ]
+            - Fn::GetAtt: [ UserInfoTable, Arn ]
+            - Fn::GetAtt: [ RewardInfoTable, Arn ]
+  environment:
+    USER_TABLE: ${self:custom.tableNameOne}
+
+functions:
+  api:
+    handler: index.handler
+    events:
+      - httpApi: '*'
+
+resources:
+  Resources:
+    UserTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: email
+            AttributeType: S
+        KeySchema:
+          - AttributeName: email
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:custom.tableNameOne}
+    UserInfoTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: userId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: userId
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:custom.tableNameTwo}
+    RewardInfoTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: rewardDay
+            AttributeType: S
+        KeySchema:
+          - AttributeName: rewardDay
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:custom.tableNameThree}

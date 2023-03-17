@@ -1,0 +1,20 @@
+[
+    {
+        "email": "asd123@gmail.com",
+        "name": "김코딩",
+        "phoneNum": "01012341234",
+        "userId": "100"
+    },
+    {
+        "email": "qwe456@gmail.com",
+        "name": "박해커",
+        "phoneNum": "01056785678",
+        "userId": "101"
+    },
+    {
+        "email": "aa112@gmail.com",
+        "name": "김산무",
+        "phoneNum": "01056785678",
+        "userId": "102"
+    }
+  ]
