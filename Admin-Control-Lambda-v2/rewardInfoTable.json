@@ -1,58 +1,72 @@
 [
     {
         "rewardDay": "1",
-        "rewardName": "아이폰 14"
+        "rewardName": "아이폰 14",
+        "rewardCount": 8
     },
     {
         "rewardDay": "2",
-        "rewardName": "에어팟 맥스 2"
+        "rewardName": "에어팟 맥스 2",
+        "rewardCount": 8
     },
     {
         "rewardDay": "3",
-        "rewardName": "MacBook Pro"
+        "rewardName": "MacBook Pro",
+        "rewardCount": 8
     },
     {
         "rewardDay": "4",
-        "rewardName": "금 10돈"
+        "rewardName": "금 10돈",
+        "rewardCount": 9
     },
     {
         "rewardDay": "5",
-        "rewardName": "안희찬과의 데이트권"
+        "rewardName": "안희찬과의 데이트권",
+        "rewardCount": 8
     },
     {
         "rewardDay": "6",
-        "rewardName": "이승준과의 식사 데이트권"
+        "rewardName": "이승준과의 식사 데이트권",
+        "rewardCount": 9
     },
     {
         "rewardDay": "7",
-        "rewardName": "서영준과의 쇼핑 데이트권"
+        "rewardName": "서영준과의 쇼핑 데이트권",
+        "rewardCount": 7
     },
     {
         "rewardDay": "8",
-        "rewardName": "이창원과의 데이트권"
+        "rewardName": "이창원과의 데이트권",
+        "rewardCount": 8
     },
     {
         "rewardDay": "9",
-        "rewardName": "현금 1000 만원"
+        "rewardName": "현금 1000 만원",
+        "rewardCount": 8
     },
     {
         "rewardDay": "10",
-        "rewardName": "KIA 스포티지"
+        "rewardName": "KIA 스포티지",
+        "rewardCount": 8
     },
     {
         "rewardDay": "11",
-        "rewardName": "에르메스 핸드백"
+        "rewardName": "에르메스 핸드백",
+        "rewardCount": 9
     },
     {
         "rewardDay": "12",
-        "rewardName": "제네시스 GV80"
+        "rewardName": "제네시스 GV80",
+        "rewardCount": 9
     },
     {
         "rewardDay": "13",
-        "rewardName": "포르쉐 911"
+        "rewardName": "포르쉐 911",
+        "rewardCount": 9
     },
     {
         "rewardDay": "14",
-        "rewardName": "롤스로이스"
+        "rewardName": "롤스로이스",
+        "rewardCount": 8
     }
 ]

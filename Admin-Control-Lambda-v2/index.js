@@ -1,4 +1,4 @@
-const { DynamoDBClient } = require("@aws-sdk/client-dynamodb");
+const { DynamoDBClient, UpdateCommand } = require("@aws-sdk/client-dynamodb");
 const {
   DynamoDBDocumentClient,
   GetCommand,
@@ -6,6 +6,8 @@ const {
 } = require("@aws-sdk/lib-dynamodb");
 const express = require("express");
 const serverless = require("serverless-http");
+const dynamoDB = new AWS.DynamoDB.DocumentClient();
+const AWS = require('aws-sdk');
 
 const app = express();
 
@@ -70,8 +72,37 @@ app.get("/users/reward", async function (req, res) {
     res.status(500).json({ error: "Could not retreive user" });
   }
 });
+
 //reward 수량 조절.
-//개발중
+
+app.put("/rewards", async function (req, res) {
+  const { rewardDay, rewardCount } = req.body;
+  if (typeof rewardDay !== "string") {
+    res.status(400).json({ error: '"rewardDay" must be a string' });
+  }    else if (typeof rewardCount !== "string") {
+    res.status(400).json({ error: '"rewardCount" must be a number' });
+  }
+
+  const params = {
+    TableName: Reward_Info_Table,
+    Key: {
+      'rewardDay': rewardDay
+    },
+    UpdateExpression: 'ADD rewardCount :val',
+    ExpressionAttributeValues: {
+      ':val': rewardCount
+    }
+  };
+
+  try {
+    await dynamoDB.update(params).promise();
+    res.json({ rewardDay, rewardCount });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Could not update reward" });
+  }
+});
+
 
 
 app.use((req, res, next) => {
