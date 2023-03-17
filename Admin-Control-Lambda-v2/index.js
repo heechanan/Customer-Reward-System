@@ -47,8 +47,29 @@ app.get("/users/attendance", async function (req, res) {
 });
 
 //수령한 리워드 조회.
-//개발중
+app.get("/users/reward", async function (req, res) {
+  const params = {
+    TableName: User_Info_Table,
+    Key: {
+      userId: req.body.userId,
+    },
+  };
 
+  try {
+    const { Item } = await dynamoDbClient.send(new GetCommand(params));
+    if (Item) {
+      const { userId, rewardName } = Item;
+      res.json({  userId, rewardName });
+    } else {
+      res
+        .status(404)
+        .json({ error: '해당 사용자를 찾을 수 없습니다.' });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Could not retreive user" });
+  }
+});
 //reward 수량 조절.
 //개발중
 
