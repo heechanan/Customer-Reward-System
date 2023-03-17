@@ -1,0 +1,73 @@
+service: Admin-Control-Lambda-v2
+frameworkVersion: '3'
+
+plugins:
+  - serverless-dynamodb-seed
+  
+custom:
+  tableNameOne: 'userInfoTable'
+  tableNameTwo: 'rewardInfoTable'
+
+  seed:
+    seedOne:
+      table: ${self:custom.tableNameOne}
+      sources:
+        - ./userInfoTable.json
+    seedTwo:
+      table: ${self:custom.tableNameTwo}
+      sources:
+        - ./rewardInfoTable.json
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: ap-northeast-2
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource:
+            - Fn::GetAtt: [ UserInfoTable, Arn ]
+            - Fn::GetAtt: [ RewardInfoTable, Arn ]
+
+  environment:
+    USERS_TABLE: ${self:custom.tableNameOne}
+    REWARD_TABLE: ${self:custom.tableNameTwo}
+
+functions:
+  api:
+    handler: index.handler
+    events:
+      - httpApi: '*'
+
+resources:
+  Resources:
+    UserInfoTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: userId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: userId
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:custom.tableNameOne}
+    RewardInfoTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: rewardDay
+            AttributeType: S
+        KeySchema:
+          - AttributeName: rewardDay
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:custom.tableNameTwo}

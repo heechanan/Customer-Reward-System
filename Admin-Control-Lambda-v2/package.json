@@ -1,0 +1,12 @@
+{
+  "name": "Admin-Control-Lambda-v2",
+  "version": "1.0.0",
+  "description": "",
+  "dependencies": {
+    "express": "^4.18.2",
+    "serverless-http": "^3.1.1"
+  },
+  "devDependencies": {
+    "serverless-dynamodb-seed": "^0.3.0"
+  }
+}
