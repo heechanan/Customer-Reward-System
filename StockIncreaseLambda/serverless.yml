@@ -12,6 +12,9 @@ custom:
     functionName: Stock_Increase_Lambda  #Lambda 함수 이름
   sqs:
     queueName: Stock_Shortage_SQS  #Stock_Shortage_SQS 이름
+  sns:
+    topicName: Stock_Increase_SNS  #Stock_Increase_SNS 이름
+
 
 # IAM 정책 생성
 provider:
@@ -30,6 +33,11 @@ provider:
             - dynamodb:UpdateItem
             - dynamodb:DeleteItem
           Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${self:custom.dynamodb.tableName3}"
+        - Effect: Allow
+          Action:
+            - sns:Publish
+          Resource: !Sub "arn:aws:sns:${AWS::Region}:${AWS::AccountId}:${self:custom.sns.topicName}"
+
   
   #Lambda 내부 환경변수 설정
   environment:
@@ -44,7 +52,7 @@ functions:
       - sqs:
           arn: !GetAtt myQueue.Arn
 
-# SNS Topic, SQS Queue, SQS_dlq 생성, SNS 이메일 구독
+# SNS Topic, SQS Queue, SQS_dlq 생성
 resources:
   Resources:
     myQueue:
@@ -58,4 +66,7 @@ resources:
       Type: "AWS::SQS::Queue"
       Properties:
         QueueName: !Sub "${self:custom.sqs.queueName}_dlq"
-
+     myTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: "${self:custom.sns.topicName}"
