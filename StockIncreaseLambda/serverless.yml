@@ -1,0 +1,61 @@
+service: Stock-Increase-Lambda
+frameworkVersion: '3'
+
+plugins:
+  - serverless-lift
+
+# name 지정
+custom:
+  dynamodb:
+    tableName3: rewardInfoTable #DB 리워드재고가 있는 테이블 이름
+  lambda:
+    functionName: Stock_Increase_Lambda  #Lambda 함수 이름
+  sqs:
+    queueName: Stock_Shortage_SQS  #Stock_Shortage_SQS 이름
+
+# IAM 정책 생성
+provider:
+  name: aws
+  region: ap-northeast-2
+  runtime: nodejs18.x
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${self:custom.dynamodb.tableName3}"
+  
+  #Lambda 내부 환경변수 설정
+  environment:
+    SNS_INCREASE_ARN: !Sub "arn:aws:sns:${AWS::Region}:${AWS::AccountId}:${self:custom.sns.topicName}"
+
+# Lambda 함수 생성
+functions:
+  myFunction:
+    name: "${self:custom.lambda.functionName}"
+    handler: index.handler
+    events:
+      - sqs:
+          arn: !GetAtt myQueue.Arn
+
+# SNS Topic, SQS Queue, SQS_dlq 생성, SNS 이메일 구독
+resources:
+  Resources:
+    myQueue:
+      Type: "AWS::SQS::Queue"
+      Properties:
+        QueueName: !Sub "${self:custom.sqs.queueName}"
+        RedrivePolicy:
+          deadLetterTargetArn: !GetAtt myDlq.Arn
+          maxReceiveCount: 10
+    myDlq:
+      Type: "AWS::SQS::Queue"
+      Properties:
+        QueueName: !Sub "${self:custom.sqs.queueName}_dlq"
+

@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "serverless-dynamodb-seed": "^0.3.0",
+    "serverless-lift": "^1.25.1"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1337.0"
+  }
+}
