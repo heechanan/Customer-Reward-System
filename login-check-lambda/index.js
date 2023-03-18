@@ -22,20 +22,19 @@ app.get("/users", async function (req, res) {
     },
   };
 
-  console.log(`TEST GET = ${req.body.userId}`)
   try {
     const { Item } = await dynamoDbClient.send(new GetCommand(params));
     if (Item) {
-      const { userId, name, email, phoneNum } = Item;
-      res.json({ userId, name });
+      const { userId, name, email } = Item;
+      res.json({ userId, name, email });
     } else {
       res
         .status(404)
-        .json({ error: 'Could not find user with provided "email"' });
+        .json({ error: '"email"을 입력해주세요.' });
     }
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Could not retreive user" });
+    res.status(500).json({ error: "존재하지 않는 사용자 입니다." });
   }
 });
 
