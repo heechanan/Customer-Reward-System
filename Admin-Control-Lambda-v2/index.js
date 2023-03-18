@@ -6,8 +6,8 @@ const {
 } = require("@aws-sdk/lib-dynamodb");
 const express = require("express");
 const serverless = require("serverless-http");
-const dynamoDB = new AWS.DynamoDB.DocumentClient();
 const AWS = require('aws-sdk');
+const dynamoDB = new AWS.DynamoDB.DocumentClient();
 
 const app = express();
 
@@ -79,7 +79,7 @@ app.put("/rewards", async function (req, res) {
   const { rewardDay, rewardCount } = req.body;
   if (typeof rewardDay !== "string") {
     res.status(400).json({ error: '"rewardDay" must be a string' });
-  }    else if (typeof rewardCount !== "string") {
+  }    else if (typeof rewardCount !== "number") {
     res.status(400).json({ error: '"rewardCount" must be a number' });
   }
 
@@ -96,7 +96,21 @@ app.put("/rewards", async function (req, res) {
 
   try {
     await dynamoDB.update(params).promise();
-    res.json({ rewardDay, rewardCount });
+    const getParams = {
+      TableName: Reward_Info_Table,
+      Key: {
+        rewardDay: rewardDay,
+      },
+    };
+    const { Item } = await dynamoDbClient.send(new GetCommand(getParams));
+    if (Item) {
+      const { rewardDay, rewardName, rewardCount } = Item;
+      res.json({  rewardDay, rewardName, rewardCount });
+    } else {
+      res
+        .status(404)
+        .json({ error: '해당 사용자를 찾을 수 없습니다.' });
+    }
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Could not update reward" });
