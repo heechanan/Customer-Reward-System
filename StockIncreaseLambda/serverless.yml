@@ -14,6 +14,8 @@ custom:
     queueName: Stock_Shortage_SQS  #Stock_Shortage_SQS 이름
   sns:
     topicName: Stock_Increase_SNS  #Stock_Increase_SNS 이름
+  ses:
+    email: vmflr2@gmail.com  #구독, 전송시킬 이메일 주소
 
 
 # IAM 정책 생성
@@ -37,9 +39,12 @@ provider:
           Action:
             - sns:Publish
           Resource: !Sub "arn:aws:sns:${AWS::Region}:${AWS::AccountId}:${self:custom.sns.topicName}"
-
-  
-  #Lambda 내부 환경변수 설정
+        - Effect: Allow
+          Action:
+            - ses:SendEmail
+          Resource: '*'
+      
+  # Lambda 내부 환경변수 설정
   environment:
     SNS_INCREASE_ARN: !Sub "arn:aws:sns:${AWS::Region}:${AWS::AccountId}:${self:custom.sns.topicName}"
 
@@ -66,7 +71,14 @@ resources:
       Type: "AWS::SQS::Queue"
       Properties:
         QueueName: !Sub "${self:custom.sqs.queueName}_dlq"
-     myTopic:
+    myTopic:
       Type: AWS::SNS::Topic
       Properties:
         TopicName: "${self:custom.sns.topicName}"
+    myEmailSubscription:
+      Type: "AWS::SNS::Subscription"
+      DependsOn: myTopic # myTopic 생성이 완료된 후에 구독이 생성되도록 설정
+      Properties:
+        Protocol: "email"
+        TopicArn: !Sub "arn:aws:sns:${AWS::Region}:${AWS::AccountId}:${self:custom.sns.topicName}"
+        Endpoint: "${self:custom.ses.email}"
