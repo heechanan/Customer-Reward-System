@@ -2,38 +2,82 @@ const AWS = require('aws-sdk');
 AWS.config.update({ region: 'ap-northeast-2' });
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
+const date = new Date();
+const day = date.getDate() - 10;
 
 module.exports = {
-    UserAttendance: async (request, reply) => {
-        try{
-            const params = {
-                TableName: 'AuthenticationDB2',
-                Key: {
-                'name': '홍길동'
-                }
+  UserAttendance: async (request, reply) => {
+    try {
+      const { name, email, phoneNum } = request.body;
+
+      const params = {
+        TableName: 'userTable',
+        Key: {
+          'email': email
+        }
+      };
+
+      const data = await dynamoDb.get(params).promise();
+      const user = data.Item;
+
+      if (!user) {
+        reply.code(404).send({ message: 'User not found' });
+        return;
+      }
+
+      // 이름, 이메일, 전화번호가 모두 일치하는지 확인
+      if (user.name === name && user.email === email && user.phoneNum === phoneNum) {
+        // 사용자의 출석 내역 추가
+        const userId = user.userId;
+        const updateParams = {
+            TableName: 'userInfoTable',
+            Key: { 'userId': userId },
+            UpdateExpression: 'set attDay = list_append(if_not_exists(attDay, :empty_list), :attDay)',
+            ExpressionAttributeValues: {
+                ':attDay': [String(day)],
+                ':empty_list': []
             }
+        };
+        await dynamoDb.update(updateParams).promise();
 
-            const data = await dynamoDb.get(params).promise();
-            reply.code(200).send(data.Item);
+        // 리워드 보상 확인
+        const rewardsParams = {
+            TableName: 'rewardInfoTable',
+            KeyConditionExpression: 'rewardDay = :rewardDay',
+            ExpressionAttributeValues: {
+              ':rewardDay': String(day)
+            }
+        };
+        // 리워드 데이터 추출
+        const rewardsData = await dynamoDb.query(rewardsParams).promise();
+        const rewards = rewardsData.Items;
 
-            // return 'test1'
-        } catch(e){
-            reply.code(404).send(e)
-        }
-    },
-    UserAttendanceList: async (request, reply) => {
-        try{
-            return 'test2'
-        } catch(e){
-            reply.code(404).send(e)
-        }
-    },
-    reward: async (request, reply) => {
-        try{
 
-            return 'test3'
-        } catch(e){
-            reply.code(404).send(e)
-        }
+        // reply.code(200).send({ message: rewards});
+        reply.code(200).send({ message: name + " 회원님의 출석이 확인되었습니다. 출석 " + day + "일차 리워드 보상은 " + rewards[0].rewardName + " 입니다."});
+        // reply.code(200).send(user);
+      } else {
+        reply.code(404).send({ message: 'User not found' });
+      }
+    } catch(e) {
+      console.error(e);
+      reply.code(500).send({ message: e.message });
     }
-}
+  },
+  UserAttendanceList: async (request, reply) => {
+    try {
+      return 'test2'
+    } catch(e) {
+      console.error(e);
+      reply.code(500).send({ message: 'Internal Server Error' });
+    }
+  },
+  reward: async (request, reply) => {
+    try {
+      return 'test3'
+    } catch(e) {
+      console.error(e);
+      reply.code(500).send({ message: 'Internal Server Error' });
+    }
+  }
+};
