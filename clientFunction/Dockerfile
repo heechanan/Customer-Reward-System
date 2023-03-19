@@ -9,6 +9,9 @@ COPY package*.json ./
 
 RUN npm install
 
+# Fastify 어플리케이션에서 CORS 허용하는 플러그인
+RUN npm install @fastify/cors 
+
 COPY ./ ./
 
 #EXPOSE 3333
