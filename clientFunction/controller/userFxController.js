@@ -3,7 +3,7 @@ AWS.config.update({ region: 'ap-northeast-2' });
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 const date = new Date();
-const day = date.getDate() - 10;
+const day = String(date.getDate() - 10);
 
 module.exports = {
   UserAttendance: async (request, reply) => {
@@ -29,16 +29,31 @@ module.exports = {
       if (user.name === name && user.email === email && user.phoneNum === phoneNum) {
         // 사용자의 출석 내역 추가
         const userId = user.userId;
-        const updateParams = {
+
+        // 출석일 중복 등록 방지
+        const userInfoParams = {
             TableName: 'userInfoTable',
-            Key: { 'userId': userId },
-            UpdateExpression: 'set attDay = list_append(if_not_exists(attDay, :empty_list), :attDay)',
-            ExpressionAttributeValues: {
-                ':attDay': [String(day)],
-                ':empty_list': []
-            }
+            Key: { 'userId': userId }
         };
-        await dynamoDb.update(updateParams).promise();
+        const data_userinfo = await dynamoDb.get(userInfoParams).promise();        
+
+        if (data_userinfo.Item && data_userinfo.Item.attDay && data_userinfo.Item.attDay.includes(day)) {
+            reply.code(400).send({ message: "이미 " + name + " 회원님의 " + day + "일차 출석이 확인되었습니다."});
+          } else {
+            const updateParams = {
+              TableName: 'userInfoTable',
+              Key: { 'userId': userId },
+              UpdateExpression: 'set attDay = list_append(if_not_exists(attDay, :empty_list), :attDay)',
+              ConditionExpression: 'attribute_not_exists(attDay) OR not contains(attDay, :day)',
+              ExpressionAttributeValues: {
+                ':attDay': [day],
+                ':empty_list': [],
+                ':day': day
+              },
+              
+            };
+            await dynamoDb.update(updateParams).promise();
+          }
 
         // 리워드 보상 확인
         const rewardsParams = {
