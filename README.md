@@ -97,7 +97,7 @@ github에서 develop branch <- feature branch 방향으로  Pull Request 진행
 
 ![image](https://user-images.githubusercontent.com/99157446/226222967-4cda5155-292c-412c-9f81-2431d28540c5.png)
 ![image](https://user-images.githubusercontent.com/99157446/226222989-223c7e10-1541-4f2f-b646-b058919db1a6.png)
-![image](https://user-images.githubusercontent.com/99157446/226223006-5af33101-fb69-4c90-9641-8277de2e7d4d.png)
+![image](https://user-images.githubusercontent.com/99157446/226233871-824af74a-970a-4900-acdb-5453b50fa2f8.png)
 
 
 
