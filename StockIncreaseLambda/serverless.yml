@@ -15,7 +15,7 @@ custom:
   sns:
     topicName: Stock_Increase_SNS  #Stock_Increase_SNS 이름
   ses:
-    email: vmflr2@gmail.com  #구독, 전송시킬 이메일 주소
+    email: heechanan22@gmail.com  #구독, 전송시킬 이메일 주소
 
 
 # IAM 정책 생성

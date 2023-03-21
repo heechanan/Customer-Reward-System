@@ -5,14 +5,16 @@ const now = new Date();
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
 
 exports.handler = async (event, context) => {
-    console.log("event body: ", event);
+    const message_body = JSON.stringify(event.Records[0].body);
+
+    console.log("event body: ", message_body);
     console.log("전송시간: ", now.toLocaleString("ko-kr", { timeZone: "Asia/Seoul" }));
     // 리워드 카운트가 3개 이하일때
-    if (event.rewardCount <= 3) {
+    if (message_body.rewardCount <= 3) {
       const params = {
         TableName: 'rewardInfoTable',
         Key: {
-          'rewardDay': event.rewardDay
+          'rewardDay': message_body.rewardDay
         },
         UpdateExpression: 'ADD rewardCount :val',
         ExpressionAttributeValues: {
@@ -23,7 +25,7 @@ exports.handler = async (event, context) => {
       try {
         await dynamoDB.update(params).promise();
         /// 재고 증가 완료 메시지
-        const message = `${now.toLocaleString("ko-kr", { timeZone: "Asia/Seoul" })} rewardDay ${event.rewardDay} 의 ${event.rewardName} 재고를 ${params.ExpressionAttributeValues[':val']} 개 증가하였습니다.`
+        const message = `${now.toLocaleString("ko-kr", { timeZone: "Asia/Seoul" })} rewardDay ${message_body.rewardDay} 의 ${message_body.rewardName} 재고를 ${params.ExpressionAttributeValues[':val']} 개 증가하였습니다.`
         console.log("전송 message: ", message);
         
         ///SNS 메세지 전송

@@ -3,29 +3,29 @@ AWS.config.update({ region: process.env.AWS_REGION });
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 const date = new Date();
-const day = String(date.getDate() - 9);
+const day = String(date.getDate() - 10);
 
 rewardDays_list = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14"];
 
-module.exports = {
+module.exports = { 
   UserAttendance: async (request, reply) => {
     try {
       const { name, email, phoneNum } = request.body;
-
+ 
       // userTable
       const params = {
         TableName: 'userTable',
-        Key: {
-          'email': email
+        Key: { 
+          'email': email 
         }
       };
-      const data = await dynamoDb.get(params).promise();
+      const data = await dynamoDb.get(params).promise(); 
       const user = data.Item;
-
+ 
       if (!user) {
         reply.code(404).send({ message: 'User not found' });
-        return;
-      }
+        return; 
+      } 
 
       // rewardInfoTable
       const rewardsParams = {
@@ -88,22 +88,27 @@ module.exports = {
             
             // 리워드 보상의 재고가 3개 이하가 됐을 경우 알람을 보내야함
 
-            // if (rewards[0].rewardCount - 1 <= 3) {
-            //   const sqs = new AWS.SQS({ region: 'ap-northeast-2' }); // SQS 리전 설정
+            if (rewards[0].rewardCount - 1 <= 3) {
+              const sqs = new AWS.SQS({ region: 'ap-northeast-2' }); // SQS 리전 설정
             
-            //   const params = {
-            //     MessageBody: rewards[0].rewardName + ' 상품의 재고가 3개 이하가 됐습니다.',
-            //     QueueUrl: 'SQS_QUEUE_URL' // SQS 큐 URL 설정
-            //   };
+              const params = {
+              // MessageBody: rewards[0].rewardName + ' 상품의 재고가 3개 이하가 됐습니다.',
+              MessageBody: JSON.stringify({
+                rewardDay: rewards[0].rewardDay,
+                rewardCount: rewards[0].rewardCount-1,
+                rewardName: rewards[0].rewardName
+              }),
+              QueueUrl: process.env.SQS_QUEUE_URL // SQS 큐 URL 설정
+              };
             
-            //   sqs.sendMessage(params, (err, data) => {
-            //     if (err) {
-            //       console.error(err);
-            //     } else {
-            //       console.log('Message sent to SQS:', data.MessageId);
-            //     }
-            //   });
-            // }
+              sqs.sendMessage(params, (err, data) => {
+                if (err) {
+                  console.error(err);
+                } else {
+                  console.log('Message sent to SQS:', data.MessageId);
+                }
+              });
+            }
         }
         
 
