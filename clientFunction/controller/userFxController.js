@@ -8,6 +8,10 @@ const day = String(date.getDate() - 10);
 rewardDays_list = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14"];
 
 module.exports = { 
+  check: async (request, reply) => {
+    return;
+  },
+  
   UserAttendance: async (request, reply) => {
     try {
       const { name, email, phoneNum } = request.body;
@@ -174,7 +178,10 @@ module.exports = {
         }
       };
       const reward_data = await dynamoDb.batchGet(rewardParams2).promise();
-      const reward_names = reward_data.Responses.rewardInfoTable.map((item, index) => `${index+1} 일차 보상 :  ${item.rewardName}`);
+      const sorted_reward_data = reward_data.Responses.rewardInfoTable.sort((a, b) => {
+        return a.rewardDay - b.rewardDay;
+      });
+      const reward_names = sorted_reward_data.map((item, index) => `${item.rewardDay} 일차 보상 :  ${item.rewardName}`);
       reply.code(200).send({ message: reward_names });
     } catch(e) {
       console.error(e);
