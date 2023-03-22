@@ -4,7 +4,7 @@ provider "aws" {
 
 data "aws_caller_identity" "current" {}
 
-resource "aws_iam_policy" "policy" {
+resource "aws_iam_policy" "policy_SIL" {
   name        = "StockIncreaseLambda-policy"
   description = "StockIncreaseLambda IAM policy"
 
@@ -18,7 +18,7 @@ resource "aws_iam_policy" "policy" {
           "logs:TagResource"
         ],
         Resource  = [
-          "arn:aws:logs:ap-northeast-2:${data.aws_caller_identity.current.account_id}:log-group:/aws/lambda/${aws_lambda_function.lambda_function.function_name}:*"
+          "arn:aws:logs:ap-northeast-2:${data.aws_caller_identity.current.account_id}:log-group:/aws/lambda/${aws_lambda_function.lambda_function_stock.function_name}:*"
         ],
         Effect    = "Allow"
       },
@@ -27,7 +27,7 @@ resource "aws_iam_policy" "policy" {
           "logs:PutLogEvents"
         ],
         Resource  = [
-          "arn:aws:logs:ap-northeast-2:${data.aws_caller_identity.current.account_id}:log-group:/aws/lambda/${aws_lambda_function.lambda_function.function_name}:*:*"
+          "arn:aws:logs:ap-northeast-2:${data.aws_caller_identity.current.account_id}:log-group:/aws/lambda/${aws_lambda_function.lambda_function_stock.function_name}:*:*"
         ],
         Effect    = "Allow"
       },
@@ -70,7 +70,7 @@ resource "aws_iam_policy" "policy" {
   })
 }
 
-resource "aws_iam_role" "role" {
+resource "aws_iam_role" "role_SIL" {
   name = "StockIncreaseLambda-role"
 
   assume_role_policy = jsonencode({
@@ -87,19 +87,19 @@ resource "aws_iam_role" "role" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "role_policy" {
-  policy_arn = aws_iam_policy.policy.arn
-  role       = aws_iam_role.role.name
+resource "aws_iam_role_policy_attachment" "role_policy_SIL" {
+  policy_arn = aws_iam_policy.policy_SIL.arn
+  role       = aws_iam_role.role_SIL.name
 }
 
-resource "aws_lambda_function" "lambda_function" {
+resource "aws_lambda_function" "lambda_function_stock" {
   filename         = "${path.module}/StockIncreaseLambda.zip"
   function_name    = "StockIncreaseLambda"
   handler          = "index.handler"
   runtime          = "nodejs18.x"
   memory_size      = 128
   timeout          = 10
-  role             = aws_iam_role.role.arn
+  role             = aws_iam_role.role_SIL.arn
   source_code_hash = filebase64sha256("${path.module}/StockIncreaseLambda.zip")
 
   environment {
