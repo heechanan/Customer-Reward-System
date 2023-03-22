@@ -1,33 +1,3 @@
-# 커밋 규칙
-## 1. 커밋 규칙
-커밋 명| 내용
--- | --
-Create| 신규 생성
-Update| 기존 파일 업데이트
-Delete| 삭제
-Fix| 오류 수정
-
-## 2. Merge 규칙
-요구사항에 대한 최소요구 사항 충족시 팀원과의 소통 후 동의하에 머지 진행.
-
-## 3. Branch 정의
-Branch 명 | 내용
--- | --
-main | 제품으로 출시될 수 있는 브랜치
-
-
-## 4. 상황 별 Git 조작 순서 및 방법
-### git에 익숙하지 않은 팀원들을 위해 작성한 git command 및 조작 방법
-* $ git pull : develop 브랜치의 최신 변경사항을 로컬로 가져온다. 
-* $ git add <file 명>: git add . 를 통해 모든 파일을 staging area에 추가할 수 있다. 
-* $ git commit -m "커밋메세지" 
-* $ git push origin <feature branch>: origin(원격 저장소)의 feature branch로 로컬 변경 내역을 push
-github에서 develop branch <- feature branch 방향으로  Pull Request 진행
-
-리뷰가 종료되고 모든 팀원의 Approve 된다면 Merge한다. 
-
-----
-
 # 프로젝트 주제
 
 * ## 쇼핑몰 구매 고객 리워드 시스템
@@ -98,6 +68,36 @@ github에서 develop branch <- feature branch 방향으로  Pull Request 진행
 ![image](https://user-images.githubusercontent.com/99157446/226233871-824af74a-970a-4900-acdb-5453b50fa2f8.png)
 
 
+
+# 커밋 규칙
+## 1. 커밋 규칙
+커밋 명| 내용
+-- | --
+Create| 신규 생성
+Update| 기존 파일 업데이트
+Delete| 삭제
+Fix| 오류 수정
+
+## 2. Merge 규칙
+요구사항에 대한 최소요구 사항 충족시 팀원과의 소통 후 동의하에 머지 진행.
+
+## 3. Branch 정의
+Branch 명 | 내용
+-- | --
+main | 제품으로 출시될 수 있는 브랜치
+
+
+## 4. 상황 별 Git 조작 순서 및 방법
+### git에 익숙하지 않은 팀원들을 위해 작성한 git command 및 조작 방법
+* $ git pull : develop 브랜치의 최신 변경사항을 로컬로 가져온다. 
+* $ git add <file 명>: git add . 를 통해 모든 파일을 staging area에 추가할 수 있다. 
+* $ git commit -m "커밋메세지" 
+* $ git push origin <feature branch>: origin(원격 저장소)의 feature branch로 로컬 변경 내역을 push
+github에서 develop branch <- feature branch 방향으로  Pull Request 진행
+
+리뷰가 종료되고 모든 팀원의 Approve 된다면 Merge한다. 
+
+----
 
 
 
