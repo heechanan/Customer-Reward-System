@@ -139,9 +139,9 @@
 
 * 여섯번째. 시스템 모니터링(CloudWatch)
   1. DynamoDB로의 접근 횟수에 따라 경보알람 발생 및 이메일 전송
-  ![image](https://user-images.githubusercontent.com/118877424/227111406-4dd52c4b-dda9-480b-b149-9041aa8078af.png)
-
-![image](https://user-images.githubusercontent.com/118877424/227111459-7010c73c-36fd-4f9e-a7bd-104d8371cd5c.png)
+  ![image](https://user-images.githubusercontent.com/118877424/227111679-e733e9ff-a938-4548-96f3-ff97d156d3e7.png)
+    
+  ![image](https://user-images.githubusercontent.com/118877424/227111459-7010c73c-36fd-4f9e-a7bd-104d8371cd5c.png)
 
 
   2. 시간 별 접근 횟수 모니터링
