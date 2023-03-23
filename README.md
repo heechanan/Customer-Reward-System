@@ -59,7 +59,8 @@
 
 # 📑기능 정의서
 
-![image](https://user-images.githubusercontent.com/99157446/226222935-44c305ee-47c3-44e7-9130-304f2d7bdb25.png)
+![image](https://user-images.githubusercontent.com/118877424/227085931-38d4820a-139c-4198-b89c-1bc11a251c28.png)
+
 
 
 # DB 테이블 정의서
