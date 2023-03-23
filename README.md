@@ -98,14 +98,17 @@
   "phoneNum": "01012341234"
 } 
 ```
-- 출석 체크 완료
-- 
+출석 체크 완료
+
 ![image](https://user-images.githubusercontent.com/118877424/227089909-8f0efc09-2088-4900-a98f-7e08f37c4d53.png)
 
-- 이미 출석 체크를 완료하여 리워드 보상을 받았을 경우
-- 
+이미 출석 체크를 완료하여 리워드 보상을 받았을 경우
+ 
 ![image](https://user-images.githubusercontent.com/118877424/227089743-c74e8e6e-9d1d-4d4a-b233-cee2e94481f6.png)
 
+사용자 인증정보 틀렸을 경우
+
+![image](https://user-images.githubusercontent.com/118877424/227090291-28398b8e-8b0a-45e2-8b0f-f50765d76700.png)
 
 
   2. 사용자 출석 내역 조회 
