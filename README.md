@@ -70,6 +70,13 @@
 ![image](https://user-images.githubusercontent.com/99157446/226233871-824af74a-970a-4900-acdb-5453b50fa2f8.png)
 
 
+# 실행 순서 (git clone 이후)
+## 첫번째. login-check-lambda 디렉토리
+     ### 1. npm install
+     ### 2. sls deploy
+     ### 3. sls dynamodb:seed 
+
+
 
 # 커밋 규칙
 ## 1. 커밋 규칙
