@@ -90,15 +90,14 @@
 * 다섯번째. 서비스 이용 (Postman 이용)
   1. 사용자 출석 인증 요청
     => POST : <ECS퍼블릭주소>:3000/user/attendance
-    => Body '''
+    => Body : 인증 정보 입력
+'''
 {
   "email": "asd123@gmail.com",
   "name": "김코딩",
   "phoneNum": "01012341234"
 } 
-
 '''
-
 
 
 
