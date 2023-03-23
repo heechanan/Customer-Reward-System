@@ -98,9 +98,21 @@
   "phoneNum": "01012341234"
 } 
 ```
+- 출석 체크 완료
+![image](https://user-images.githubusercontent.com/118877424/227089909-8f0efc09-2088-4900-a98f-7e08f37c4d53.png)
+
+- 이미 출석 체크를 완료하여 리워드 보상을 받았을 경우
+![image](https://user-images.githubusercontent.com/118877424/227089743-c74e8e6e-9d1d-4d4a-b233-cee2e94481f6.png)
+
+
+
   2. 사용자 출석 내역 조회 
     => POST : <ECS퍼블릭주소>:3000/user/attendance2
     => Body : 인증 정보 입력 (사용자 출석 인증 요청 시 Body와 동일)
+    
+ ![image](https://user-images.githubusercontent.com/118877424/227090003-3f8a6078-605f-43f2-8ac6-f0b73622ad32.png)
+
+  
   3. 사용자의 수령 가능 리워드(누적 출석수)조회
     => GET : <ECS퍼블릭주소>:3000/user/reward
     
