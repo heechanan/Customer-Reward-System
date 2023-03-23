@@ -103,6 +103,8 @@
     => Body : 인증 정보 입력 (사용자 출석 인증 요청 시 Body와 동일)
   3. 사용자의 수령 가능 리워드(누적 출석수)조회
     => GET : <ECS퍼블릭주소>:3000/user/reward
+ ![image](https://user-images.githubusercontent.com/118877424/227089329-f700299d-6b19-450b-ac08-55b2b22d2f97.png)
+
   4. 리워드 시스템 관리자의 고객(전체) 출석 현황 조회
 
 
