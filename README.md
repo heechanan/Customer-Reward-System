@@ -137,6 +137,17 @@
     ![image](https://user-images.githubusercontent.com/99157446/227094509-72851e10-e306-44dd-9996-2b17c0ba6be0.png)
 
 
+* 여섯번째. 시스템 모니터링(CloudWatch)
+  1. DynamoDB로의 접근 횟수에 따라 경보알람 발생 및 이메일 전송
+  ![image](https://user-images.githubusercontent.com/118877424/227111406-4dd52c4b-dda9-480b-b149-9041aa8078af.png)
+
+![image](https://user-images.githubusercontent.com/118877424/227111459-7010c73c-36fd-4f9e-a7bd-104d8371cd5c.png)
+
+
+  2. 시간 별 접근 횟수 모니터링
+  
+![image](https://user-images.githubusercontent.com/118877424/227111391-2fed3f72-d2af-4987-ace9-1b98d3273ee2.png)
+
 
 # 커밋 규칙
 ## 1. 커밋 규칙
