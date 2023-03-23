@@ -71,10 +71,34 @@
 
 
 # 실행 순서 (git clone 이후)
-## 첫번째. login-check-lambda 디렉토리
-     ### 1. npm install
-     ### 2. sls deploy
-     ### 3. sls dynamodb:seed 
+* 첫번째. login-check-lambda 디렉토리
+  1. npm install
+  2. sls deploy          
+  3. sls dynamodb:seed  // dynamoDB 테이블 생성 (userTable.json 소스 기반)
+
+* 두번째. StockIncreaseLambda 디렉토리
+  1. serverless plugin install -n serverless-lift 
+  2. sls deploy
+
+* 세번째. Admin-Control-Lambda 디렉토리
+  1. sls deploy
+
+* 네번째. clientFunction 디렉토리
+  1. 소스코드 수정 후 git push 시 GitAction 을 통하여 설정된 AWS 계정의 ECR 레포지토리로 이미지 업로드 됨
+  2. ECS Task 및 Service 의 배포 버전 개정 진행
+
+* 다섯번째. 서비스 이용 (Postman 이용)
+  1. 사용자 출석 인증 요청
+    => POST : <ECS퍼블릭주소>:3000/user/attendance
+    => Body '''
+{
+  "email": "asd123@gmail.com",
+  "name": "김코딩",
+  "phoneNum": "01012341234"
+} 
+
+'''
+
 
 
 
