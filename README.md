@@ -124,7 +124,17 @@
  ![image](https://user-images.githubusercontent.com/118877424/227089329-f700299d-6b19-450b-ac08-55b2b22d2f97.png)
 
 
-  4. 리워드 시스템 관리자의 고객(전체) 출석 현황 조회
+  4. 리워드 시스템 관리자의 고객 출석 현황 조회
+    => GET <Api gateway Endpoint/users/attendance>
+![image](https://user-images.githubusercontent.com/99157446/227093462-bf36e88c-0004-447e-a9b1-e1f55caa5d8f.png)
+  
+  5. 리워드 시스템 관리자의 해당 고객의 리워드 수령 내역 조회
+    => GET <Api gateway Endpoint/users/reward>
+    ![image](https://user-images.githubusercontent.com/99157446/227094117-75eae7ae-3788-44f3-b044-a504773a6d8b.png)
+    
+  6. 리워드 시스템 관리자는 리워드의 수량을 조절할 수 있다.
+    => PUT <Api gateway Endpoint/rewards
+    ![image](https://user-images.githubusercontent.com/99157446/227094509-72851e10-e306-44dd-9996-2b17c0ba6be0.png)
 
 
 
