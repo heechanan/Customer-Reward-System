@@ -4,8 +4,7 @@
 
 
 # 아키텍처 구성도
-![image](https://user-images.githubusercontent.com/118877424/227090559-9788e81e-bd81-4d90-b65d-99d962401c3d.png)
-
+![image](https://user-images.githubusercontent.com/118877424/227402385-93f24094-9a1d-4bb9-b732-1fc5aa601674.png)
 
 
 
