@@ -95,6 +95,18 @@
 
 </details>
 
+<details>
+<summary>기능 순서도</summary>
+
+<!-- summary 아래 한칸 공백 두어야함 -->
+![image](https://user-images.githubusercontent.com/118877424/229822886-bcba4bca-9f65-4a01-99e2-592817a89538.png)
+
+</details>
+
+
+
+
+
 <br/>
 
 # 💾 DB 테이블 정의서
